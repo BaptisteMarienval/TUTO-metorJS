@@ -1,0 +1,121 @@
+<template name="home">
+<head>
+  <title>Todo List</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Todo List Collaborative</h1>
+       {{#if isLogged}}
+       Bienvenue {{isLogged.name}}
+       {{> submitTask}}
+       {{else}}
+       {{> inscription}}
+       {{/if}}
+    </header>
+    {{> tasksList}}
+  </div>
+</body>
+</template>
+<!-- Formulaire d'inscription -->
+<template name="inscription">
+  <h3>Identification</h3>
+  <form class="form-inline">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" class="form-control" placeholder="Name">
+        <select id='color' name="color" size="1" class="form-control">
+            <option value="red">red</option>
+            <option value="blue">blue</option>
+            <option value="green">green</option>
+            <option value="orange">orange</option>
+            <option value="purple">purple</option>
+        </select>
+        <label for="name">Email</label>
+        <input type="text" id="email" class="form-control" placeholder="Email">
+      </div>
+      <button class="btn btn-default">Join</button>
+    </form>
+</template>
+
+<!-- ajout d'une tache -->
+<template name="submitTask">
+  <form id="formTask" class="form-inline">
+    <div class="form-group">
+      <label for="libelle">Tache</label>
+    <input type="text" name="libelle" class="form-control" placeholder="Nouvelle tache" />
+    <select id='priority' name="priority" size="1" class="form-control">
+        <option value="1">Critique</option>
+        <option value="2">Majeure</option>
+        <option value="3">Mineure</option>
+    </select>
+    <button type="submit" id="submit" class="btn btn-default">Submit</button>
+    </div>
+  </form>
+</template>
+
+<!-- liste des taches -->
+<template name="tasksList">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>
+          A faire
+        </th>
+        <th>
+          Developpement
+        </th>
+        <th>
+          Validation
+        </th>
+        <th>
+          Terminée
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tasks }}
+            <tr>
+              <td>
+                {{#if afaire}}
+                <div style="color:{{color}}">
+                  <span class="text">{{priority}} - <b>{{libelle}}</b> - <i> {{user}}</i></span>
+                  <button class="delete">&times;</button>
+                  <button class="moveEnCours">&gt;</button>
+                </div>
+                {{/if}}
+              </td>
+              <td>
+                {{#if encours}}
+                <div style="color:{{color}}">
+                  <span class="text">{{priority}} - <b>{{libelle}}</b> - <i> {{user}}</i></span>
+                  <button class="moveAfaire">&lt;</button>
+                   <button class="moveAvalider">&gt;</button>
+                </div>
+                {{/if}}
+              </td>
+              <td>
+                {{#if avalider}}
+                <div style="color:{{color}}">
+                  <span class="text">{{priority}} - <b>{{libelle}}</b> - <i> {{user}}</i></span>
+                  <button class="moveEnCours">&lt;</button>
+                       <button class="moveTerminee">&gt;</button>
+                </div>
+                {{/if}}
+              </td>
+              <td>
+                {{#if terminee}}
+                <div style="color:{{color}}">
+                  <span class="text">{{priority}} - <b>{{libelle}}</b> - <i> {{user}}</i></span>
+                  <button class="moveAvalider">&lt;</button>
+                  <button class="delete">&times;</button>
+                </div>
+                {{/if}}
+              </td>
+        </tr>
+        {{/each}}
+      </tbody>
+
+  </table>
+</template>
