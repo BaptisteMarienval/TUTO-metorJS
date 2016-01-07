@@ -24,6 +24,7 @@ Template.home.helpers({
 
 Template.inscription.events({
   'click .btn': function(event) {
+      console.log("Ajout d'un nouvel utilisateur");
     event.preventDefault();
     var name = $('#name').val();
     var color = $('#color').val();
@@ -51,6 +52,9 @@ Template.inscription.events({
 
 Template.submitTask.events({
   "submit #formTask": function(event) {
+
+    console.log("Ajout d'une nouvelle tache");
+
     // Prevent default browser form submit
     event.preventDefault();
 
@@ -111,6 +115,10 @@ Template.tasksList.helpers({
 
 
 Template.tasksList.events({
+  "click .delete": function() {
+
+
+    console.log("Suppression d'une tache");
 
   Meteor.call("removeTask", {
     id: this._id
@@ -122,15 +130,14 @@ Template.tasksList.events({
       console.log("Del tache");
     }
   });
-
-
 },
-
-
 "click .moveAfaire": function() {
+
   Meteor.call("updateTask", {
     id: this._id,
-    status: "afaire"
+    status: "afaire",
+    color: Session.get("color"),
+    user: Session.get("name")
   }, function(error, result) {
     if (error) {
       console.log("error", error);
@@ -144,7 +151,9 @@ Template.tasksList.events({
 "click .moveEnCours": function() {
   Meteor.call("updateTask", {
     id: this._id,
-    status: "encours"
+    status: "encours",
+    color: Session.get("color"),
+    user: Session.get("name")
   }, function(error, result) {
     if (error) {
       console.log("error", error);
@@ -158,7 +167,9 @@ Template.tasksList.events({
 "click .moveAvalider": function() {
   Meteor.call("updateTask", {
     id: this._id,
-    status: "avalider"
+    status: "avalider",
+    color: Session.get("color"),
+    user: Session.get("name")
   }, function(error, result) {
     if (error) {
       console.log("error", error);
@@ -171,7 +182,9 @@ Template.tasksList.events({
 "click .moveTerminee": function() {
   Meteor.call("updateTask", {
     id: this._id,
-    status: "terminee"
+    status: "terminee",
+    color: Session.get("color"),
+    user: Session.get("name")
   }, function(error, result) {
     if (error) {
       console.log("error", error);
